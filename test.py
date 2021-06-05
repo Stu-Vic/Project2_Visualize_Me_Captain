@@ -1,6 +1,11 @@
 # app.py
 from flask import Flask, request, jsonify
+from pprint import pprint
+import pymongo
+
 app = Flask(__name__)
+
+
 
 @app.route('/getmsg/', methods=['GET'])
 def respond():
@@ -44,11 +49,25 @@ def post_something():
 # A welcome message to test our server
 @app.route('/')
 def index():
-    return """
+    return testlist
+
+
+
+myclient = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
+mydb = myclient["testDB"]
+mycol = mydb["test"]
+testresults = mycol.find()
+testlist = []
+for x in testresults:
+    testlist.append(x)
+    print(x)
+
+htmlstring = """
     <h1>Welcome to our server !!</h1>
-    <h6>Created by Twitterazi: Dave</h6><br>
+    <h4>Created by Twitterazi: Dave</h4><br>
     <img src="https://www.creativefreedom.co.uk/wp-content/uploads/2017/06/Twitter-featured.png" alt="TwitterIcon"><br>
     """
+returnstring = htmlstring + str(testlist)
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
