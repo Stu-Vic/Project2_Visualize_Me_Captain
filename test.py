@@ -49,7 +49,11 @@ def post_something():
 # A welcome message to test our server
 @app.route('/')
 def index():
-    return testlist
+    testlist = []
+    testresults = mycol.find()
+    for entry in testresults:
+        print(entry)
+    return htmlstring
 
 
 
