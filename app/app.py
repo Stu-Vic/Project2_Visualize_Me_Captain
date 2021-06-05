@@ -3,7 +3,7 @@ from flask_pymongo import PyMongo
 import pandas as pd
 import datetime as dt
 import numpy as np
-import data.py
+import data
 
 app = Flask(__name__)
 
