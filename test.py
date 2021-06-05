@@ -44,7 +44,11 @@ def post_something():
 # A welcome message to test our server
 @app.route('/')
 def index():
-    return "<h1>Welcome to our server !!</h1>"
+    return """
+    <h1>Welcome to our server !!</h1>
+    <h6>Created by Twitterazi: Dave</h6><br>
+    <img src="https://www.creativefreedom.co.uk/wp-content/uploads/2017/06/Twitter-featured.png" alt="TwitterIcon"><br>
+    """
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
