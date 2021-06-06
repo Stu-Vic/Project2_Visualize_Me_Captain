@@ -9,7 +9,7 @@ import pymongo
 
 app = Flask(__name__)
 
-mongo = PyMongo(app, uri="mongodb://localhost:27017/test")
+mongo = PyMongo(app, uri="mongodb://localhost:27017/Twitterer")
 
    
 
@@ -17,7 +17,7 @@ mongo = PyMongo(app, uri="mongodb://localhost:27017/test")
 def home():
 
     # Find one record of data from the mongo database
-    product_data = mongo.db.products.find_one()
+    product_data = mongo.db.AkshayKumar.find_one()
     print(product_data)
 
 
