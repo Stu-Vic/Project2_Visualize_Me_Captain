@@ -17,6 +17,7 @@ mongo = PyMongo(app, uri="mongodb://localhost:27017/Twitterer")
 def home():
 
     # Find one record of data from the mongo database
+    #TODO: make this database call parametrized
     product_data = mongo.db.AkshayKumar.find_one()
     print(product_data)
 
