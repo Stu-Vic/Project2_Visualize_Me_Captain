@@ -37,6 +37,7 @@ def dynamictest():
     testoutput =  mongo_collection.find( { "Identity": QueryIdentity },{ "_id": 0, "Hashtags(#)": 1} ).limit(20)
     # turn into JSON
     testoutput_listcursor = list(testoutput)
+    print(testoutput_listcursor)
     json_data = dumps(testoutput_listcursor, indent=2)
     return json_data
     # stringreturn = "<h3>Name Is " + QueryIdentity + "</h3>"
