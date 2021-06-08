@@ -2,13 +2,20 @@
 from flask import Flask, request, jsonify
 from pprint import pprint
 import pymongo
+from bson.json_util import dumps, loads
 
 app = Flask(__name__)
 
-@app.route("/api/test")
-def stations():
-    testoutput =  mongo_collection.find({},{ "_id": 0, "Hashtags(#)": 1, "Identity": "Akshay Kumar"}).limit(10):
-    return jsonify (testoutput=testoutput)
+@app.route("/api/test/")
+def test():
+    # return """<h3>route works</h3>"""
+    client = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
+    mongo_db = client["Tweets_DB"]
+    mongo_collection = mongo_db["Combined_Tweets"]
+    testoutput =  mongo_collection.find({},{ "_id": 0, "Hashtags(#)": 1, "Identity": "Akshay Kumar"}).limit(10)
+    testoutput_listcursor = list(testoutput)
+    json_data = dumps(testoutput_listcursor, indent=2)
+    return json_data
 
 @app.route('/getmsg/', methods=['GET'])
 def respond():
