@@ -2,24 +2,64 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Twitterazzi</title>
+  <!-- Load d3.js -->
 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="static/css/style.css">
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Load d3-cloud -->
+<script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
 
 </head>
 
 <body>
 
-  
-</div>
+  <div class = 'container col-12'>
+    <div class = 'row bg-light'>
+      <div class = 'col-xs-12 col-lg-12 jumbotron text-center'>
+        <h1> TWITTERAZI: Top 50 user stats!</h1>
+        <div class="well">
+          <h5>Choose Your Twitter User:</h5>
+          <select id="selDataset" onchange="optionChanged(this.value)">
+          </select>
+        </div>
+      </div>
+    </div>
+    <!-- <div id = "slides" class = "carousel slide" data-ride = "carousel">
+      <ul class = 'carousel-indicators'>
 
-<h2>AkshayKumar:</h2>
-<h3>Name:{{ product_data.Name }}</h3>
-<h3>Likes:{{ product_data.Likes }}</h3>
-</div>
+      </ul>
+    </div> -->
+    <div class = 'row bg-light'>
+      <div class = 'col-xs-1 col-lg-1'>
+        <button onclick="dashBoard()" id="button">Show Dash-board</button>
+        <br>
+        <button onclick="Arc()" id="button">Show Arc Diagram</button>
+        <br>
+        <button onclick="wordCloud()" id="button">Show Word Cloud</button>
+      </div>
+      <div class = 'col-xs-11 col-lg-11'>
+        <h4>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum iaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h4>
+      </div>
+      <div class = 'col-xs-1 col-lg-1'>
+
+      </div>
+    </div>
+  </div>
+
+
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.min.js"></script>
   <script type="text/javascript" src="static/js/logic.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
 
 </body>
 </html>
