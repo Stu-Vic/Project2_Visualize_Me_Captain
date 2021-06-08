@@ -5,7 +5,10 @@ import pymongo
 
 app = Flask(__name__)
 
-
+@app.route("/api/test")
+def stations():
+    testoutput =  mongo_collection.find({},{ "_id": 0, "Hashtags(#)": 1, "Identity": "Akshay Kumar"}).limit(10):
+    return jsonify (testoutput=testoutput)
 
 @app.route('/getmsg/', methods=['GET'])
 def respond():
