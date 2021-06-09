@@ -3,6 +3,8 @@ from flask import Flask, request, jsonify
 from pprint import pprint
 import pymongo
 from bson.json_util import dumps, loads
+import numpy as np
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -42,6 +44,54 @@ def dynamictest():
     return json_data
     # stringreturn = "<h3>Name Is " + QueryIdentity + "</h3>"
     # return stringreturn
+
+@app.route("/api/wordcloud/", methods=['GET'])
+def wordcloud():
+    # get twitter identity from API URL query / call 
+    QueryIdentity = request.args.get("identity", None)
+    print(f"got name {QueryIdentity}")
+    if QueryIdentity.startswith('"') and QueryIdentity.endswith('"'):
+        QueryIdentity = QueryIdentity[1:-1]
+        print(f"revised name {QueryIdentity}")
+    # set up database connection
+    client = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
+    mongo_db = client["Tweets_DB"]
+    mongo_collection = mongo_db["Combined_Tweets"]
+    # query db
+    output =  mongo_collection.find( { "Identity": QueryIdentity, "Hashtags(#)": {"$ne" : '[]'} },{ "_id": 0, "Hashtags(#)": 1} )
+    # convert to dataframe
+    output_df = pd.DataFrame(list(output))
+    HashTagArray = [eval(x) for x in output_df["Hashtags(#)"]]
+    flattened_Hashtag_list = []
+    for l1 in HashTagArray:
+        for l2 in l1:
+            flattened_Hashtag_list.append(l2)
+    return jsonify(flattened_Hashtag_list)
+
+# @app.route("/api/dashboard1/", methods=['GET'])
+# def dynamictest():
+
+#     # get twitter identity from API URL query / call 
+#     QueryIdentity = request.args.get("identity", None)
+#     print(f"got name {QueryIdentity}")
+#     if QueryIdentity.startswith('"') and QueryIdentity.endswith('"'):
+#         QueryIdentity = QueryIdentity[1:-1]
+#         print(f"revised name {QueryIdentity}")
+
+#     # set up database connection
+#     client = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
+#     mongo_db = client["Tweets_DB"]
+#     mongo_collection = mongo_db["Combined_Tweets"]
+
+#     # query db
+#     testoutput =  mongo_collection.find( { "Identity": QueryIdentity },{ "_id": 0, "Hashtags(#)": 1} ).limit(20)
+
+#     # turn into JSON
+#     testoutput_listcursor = list(testoutput)
+#     print(testoutput_listcursor)
+#     json_data = dumps(testoutput_listcursor, indent=2)
+#     return json_data
+
 
 @app.route('/getmsg/', methods=['GET'])
 def respond():
