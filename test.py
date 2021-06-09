@@ -5,14 +5,15 @@ import pymongo
 from bson.json_util import dumps, loads
 
 app = Flask(__name__)
+client = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
+mongo_db = client["Tweets_DB"]
+mongo_collection = mongo_db["Combined_Tweets"]
 
 @app.route("/api/test/")
 def test():
     # return """<h3>route works</h3>"""
     # set up database connection
-    client = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
-    mongo_db = client["Tweets_DB"]
-    mongo_collection = mongo_db["Combined_Tweets"]
+    
     # query db
     testoutput =  mongo_collection.find({},{ "_id": 1, "Hashtags(#)": 1, "Identity": "Akshay Kumar"}).limit(10)
     # turn into JSON
@@ -24,17 +25,15 @@ def test():
 def dynamictest():
     # return """<h3>route works</h3>"""
     # get twitter identity from API URL query / call 
-    QueryIdentity = request.args.get("identity", None)
+    QueryIdentity = request.args.get("identity",None)
     print(f"got name {QueryIdentity}")
     if QueryIdentity.startswith('"') and QueryIdentity.endswith('"'):
         QueryIdentity = QueryIdentity[1:-1]
         print(f"revised name {QueryIdentity}")
     # set up database connection
-    client = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
-    mongo_db = client["Tweets_DB"]
-    mongo_collection = mongo_db["Combined_Tweets"]
+    
     # query db
-    testoutput =  mongo_collection.find( { "Identity": QueryIdentity },{ "_id": 0, "Hashtags(#)": 1} ).limit(20)
+    testoutput =  mongo_collection.find( { "Identity": QueryIdentity },{ "_id": 0, "Hashtags(#)": 1,"Likes":1,"Mentions(@)":1} ).limit(20)
     # turn into JSON
     testoutput_listcursor = list(testoutput)
     print(testoutput_listcursor)
@@ -42,6 +41,29 @@ def dynamictest():
     return json_data
     # stringreturn = "<h3>Name Is " + QueryIdentity + "</h3>"
     # return stringreturn
+@app.route("/api/likes/", methods=['GET'])
+def likes():
+    # set
+    QueryName = request.args.get("name",None)
+    print(f"got name {QueryName}")
+    if QueryName.startswith('""') and QueryName.endswith('""'):
+        QueryName = QueryName[2:-2]
+        print(f"revised name {QueryName}")
+    # set
+    client = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
+    mongo_db = client["Tweets_DB"]
+    mongo_collection = mongo_db["Combined_Tweets"]
+
+    testoutput =  mongo_collection.find( { "Identity": QueryName },{ "_id": 0,"Likes":1} ).limit(20)
+    # turn into JSONJSON
+    print(testoutput)
+    testoutput_listcursor = list(testoutput)
+    print(testoutput_listcursor)
+    json_data = dumps(testoutput_listcursor, indent=2)
+    return json_data
+
+    # query db
+   
 
 @app.route('/getmsg/', methods=['GET'])
 def respond():
@@ -81,6 +103,7 @@ def post_something():
         return jsonify({
             "ERROR": "no name found, please send a name."
         })
+
 
 # A welcome message to test our server
 @app.route('/')

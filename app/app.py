@@ -25,19 +25,6 @@ def home():
     # Return template and data
     return render_template("index.html", product_data=product_data)
 
-
-    
-
-
-
-
-    
-
-
-
-
-
-    
     Info = {1: 'Aaron', 2: '10 months', 3: 'baby'}
     return render_template("index.html", Info=Info)
 if __name__ == "__main__":
