@@ -54,7 +54,7 @@ def likes():
     mongo_db = client["Tweets_DB"]
     mongo_collection = mongo_db["Combined_Tweets"]
 
-    testoutput =  mongo_collection.find( { "Identity": QueryName },{ "_id": 0,"Likes":1} ).limit(20)
+    testoutput =  mongo_collection.find( { "Identity": QueryName }).sort([("Likes",-1)]).limit(1) 
     # turn into JSONJSON
     print(testoutput)
     testoutput_listcursor = list(testoutput)
