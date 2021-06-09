@@ -21,7 +21,9 @@
   <div class = 'container col-12'>
     <div class = 'row bg-light'>
       <div class = 'col-xs-12 col-lg-12 jumbotron text-center'>
-        <h1> TWITTERAZI: Top 50 user stats!</h1>
+        <div class="container col-xs-5 col-lg-5 text-center">
+          <h1 class = 'heading'> TWITTERAZI: Top 50 user stats!</h1>
+        </div>
         <div class="well">
           <h5>Choose Your Twitter User:</h5>
           <select id="selDataset" onchange="optionChanged(this.value)">
@@ -46,6 +48,13 @@
         <h4>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum iaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h4>
       </div>
       <div class = 'col-xs-1 col-lg-1'>
+      <div class="row">
+        <div class="col-xs-12  col-md-9">
+          <div id="scatter">
+            <!-- We append our chart here. -->
+          </div>
+        </div>
+      </div>
 
       </div>
     </div>
