@@ -1,5 +1,5 @@
 # app.py
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 from pprint import pprint
 import pymongo
 from bson.json_util import dumps, loads
@@ -74,7 +74,8 @@ def wordcloud():
 @app.route("/api/identitylist/")
 def list_identities():
     Identity_List = ['Akshay Kumar', 'Amitabh Bachchan', 'Ariana Grande', 'Barack Obama', 'BBC', 'Bill Gates', 'Britney Spears', 'Bruno Mars', 'CNN Breaking', 'CNN', 'Cristiano Ronaldo', 'Donald Trump', 'Drake', 'ESPN', 'FC Barcelona', 'Harry Styles', 'Instagram', 'Jimmy Fallon', 'J Lo', 'Justin Bieber', 'Justin Timberlake', 'Katy Perry', 'Kevin Hart', 'Kim Kardashian', 'Lady Gaga', 'Le Bron James', 'Liam Payne', 'Lil Wayne', 'Louis Tomlinson', 'Miley Cyrus', 'Narendra Modi', 'NASA', 'Neymar Jr', 'Niall Horan', 'NY Times', 'Oprah', 'Pink', 'Real Madrid', 'Rihanna', 'Salman Khan', 'Selena Gomez', 'Shah Rukh Khan', 'Shakira', 'Sports Center', 'Taylor Swift', 'The Ellen Show', 'Twitter', 'Virat Kohli', 'Wiz Khalifa', 'Youtube']
-    return jsonify(Identity_List)
+    Identities_df = pd.DataFrame(Identity_List,columns=['Identities'])
+    return Response(Identities_df.to_json(orient="records"), mimetype='application/json')
 
 
 @app.route('/getmsg/', methods=['GET'])
