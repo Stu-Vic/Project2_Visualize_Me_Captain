@@ -85,6 +85,40 @@ def average():
     return json_data
     # query db
    
+@app.route("/api/average/daily/", methods=['GET'])
+def averageDaily():
+    # set
+    QueryName = request.args.get("name",None)
+    print(f"got name {QueryName}")
+    if QueryName.startswith('""') and QueryName.endswith('""'):
+        QueryName = QueryName[2:-2]
+        print(f"revised name {QueryName}")
+    # set
+    client = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
+    mongo_db = client["Tweets_DB"]
+    mongo_collection = mongo_db["Combined_Tweets"]
+
+    #testoutput =  mongo_collection.find( { "Identity": QueryName }).sort([("Likes",-1)]).limit(1) 
+    testoutput = mongo_collection.aggregate([
+        { '$match': { 'Identity': QueryName } },
+{
+   '$group':
+     {
+    #    'year': "$year",
+    #    'month': "$month",
+            '_id':{
+           'day': "$Date"},
+           'avgValue': { '$avg': "$Likes" } 
+         }
+    }
+]);
+    # turn into JSONJSON
+    print(f"output {testoutput}")
+    testoutput_listcursor = list(testoutput)
+    print(testoutput_listcursor)
+    json_data = dumps(testoutput_listcursor, indent=2)
+    return json_data
+    # query db
 
 @app.route('/getmsg/', methods=['GET'])
 def respond():
