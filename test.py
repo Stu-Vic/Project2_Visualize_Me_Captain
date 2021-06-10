@@ -1,5 +1,5 @@
 # app.py
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from pprint import pprint
 import pymongo
 from bson.json_util import dumps, loads
@@ -67,7 +67,7 @@ def wordcloud():
         for l2 in l1:
             l2 = l2.replace('"','')
             flattened_Hashtag_list.append(l2)
-    aux = JSON.stringify
+    # aux = JSON.stringify
     return jsonify(flattened_Hashtag_list)
 
 @app.route("/api/identitylist/")
@@ -147,7 +147,7 @@ def index():
     testresults = mycol.find()
     for entry in testresults:
         print(entry)
-    return htmlstring
+    return render_template("index.html")
 
 
 
