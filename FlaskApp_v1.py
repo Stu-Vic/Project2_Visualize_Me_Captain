@@ -1,5 +1,6 @@
 # app.py
-from flask import Flask, request, jsonify, Response
+# v2 - 10:34pm
+from flask import Flask, request, jsonify, Response, render_template
 from pprint import pprint
 import pymongo
 from bson.json_util import dumps, loads
@@ -172,7 +173,7 @@ def index():
     testresults = mycol.find()
     for entry in testresults:
         print(entry)
-    return htmlstring
+    return render_template("index.html")
 
 
 myclient = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
