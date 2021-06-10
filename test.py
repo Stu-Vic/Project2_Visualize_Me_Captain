@@ -65,8 +65,16 @@ def wordcloud():
     flattened_Hashtag_list = []
     for l1 in HashTagArray:
         for l2 in l1:
+            l2 = l2.replace('"','')
             flattened_Hashtag_list.append(l2)
+    aux = JSON.stringify
     return jsonify(flattened_Hashtag_list)
+
+@app.route("/api/identitylist/")
+def list_identities():
+    Identity_List = ['Akshay Kumar', 'Amitabh Bachchan', 'Ariana Grande', 'Barack Obama', 'BBC', 'Bill Gates', 'Britney Spears', 'Bruno Mars', 'CNN Breaking', 'CNN', 'Cristiano Ronaldo', 'Donald Trump', 'Drake', 'ESPN', 'FC Barcelona', 'Harry Styles', 'Instagram', 'Jimmy Fallon', 'J Lo', 'Justin Bieber', 'Justin Timberlake', 'Katy Perry', 'Kevin Hart', 'Kim Kardashian', 'Lady Gaga', 'Le Bron James', 'Liam Payne', 'Lil Wayne', 'Louis Tomlinson', 'Miley Cyrus', 'Narendra Modi', 'NASA', 'Neymar Jr', 'Niall Horan', 'NY Times', 'Oprah', 'Pink', 'Real Madrid', 'Rihanna', 'Salman Khan', 'Selena Gomez', 'Shah Rukh Khan', 'Shakira', 'Sports Center', 'Taylor Swift', 'The Ellen Show', 'Twitter', 'Virat Kohli', 'Wiz Khalifa', 'Youtube']
+    return jsonify(Identity_List)
+
 
 # @app.route("/api/dashboard1/", methods=['GET'])
 # def dynamictest():
