@@ -81,7 +81,7 @@ def wordcloud():
     hashtag_dict = word_count(flattened_Hashtag_list)
     dict_df = pd.DataFrame()
     dict_df = pd.DataFrame(list(hashtag_dict.items()),columns = ['text','size']) 
-    dict_df.sort_values(['Count'], ascending=False, inplace=True)
+    dict_df.sort_values(['size'], ascending=False, inplace=True)
     # x = hashtag_dict
     # sorted_hashtag_dict = {k: v for k, v in sorted(x.items(), key=lambda item: item[1], reverse=True)}
     # sorted_df = pd.DataFrame(sorted_hashtag_dict,columns=[['Hashtag','Count']])
