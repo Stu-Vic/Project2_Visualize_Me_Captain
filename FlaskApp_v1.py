@@ -8,6 +8,16 @@ import pandas as pd
 
 app = Flask(__name__)
 
+def word_count(input):
+    counts = dict()
+    
+    for word in input:
+        if word in counts:
+            counts[word] += 1
+        else:
+            counts[word] = 1
+    return counts
+
 @app.route("/api/test/")
 def test():
     # return """<h3>route works</h3>"""
@@ -68,8 +78,14 @@ def wordcloud():
         for l2 in l1:
             # l2 = l2.replace('"','')
             flattened_Hashtag_list.append(l2)
-    # aux = JSON.stringify
-    return jsonify(flattened_Hashtag_list)
+    hashtag_dict = word_count(flattened_Hashtag_list)
+    dict_df = pd.DataFrame()
+    dict_df = pd.DataFrame(list(hashtag_dict.items()),columns = ['text','size']) 
+    dict_df.sort_values(['Count'], ascending=False, inplace=True)
+    # x = hashtag_dict
+    # sorted_hashtag_dict = {k: v for k, v in sorted(x.items(), key=lambda item: item[1], reverse=True)}
+    # sorted_df = pd.DataFrame(sorted_hashtag_dict,columns=[['Hashtag','Count']])
+    return Response(dict_df.to_json(orient="records"), mimetype='application/json')
 
 @app.route("/api/identitylist/")
 def list_identities():
