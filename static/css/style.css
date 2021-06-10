@@ -1,0 +1,44 @@
+h1 {
+    padding: 20px;
+    text-align: center;
+    font-family: "Georgia";
+    font-size: 50px;
+    
+}
+
+.jumbotron {
+    background-image: url("../js/pics/banner.jpg");
+    background-size: cover;
+    background-size: 30% 100%;
+}
+
+.heading {
+    background-color: #d9fbf7;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.8);
+
+}
+
+button {
+    display: inline-block;
+    padding: 20px 25px;
+    font-size: 20px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #666;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 9px #999;
+    margin: 5px;
+}
+  
+button:hover {background-color: #005bbb}
+  
+button:active {
+    background-color: #005bbb;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
