@@ -29,7 +29,8 @@ var svg = d3.select("#my_dataviz")
           "translate(" + margin.left + "," + margin.top + ")");
 
 // Read dummy data
-d3.json("../templates/arcdata_connections.json", function( data) {
+query_url = "/api/ARC_Diagram/"
+d3.json(query_url, function( data) {
 console.log(data);
 
   // List of node names
