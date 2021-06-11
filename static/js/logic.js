@@ -5,9 +5,9 @@ init();
 
 function init() {
 
-    d3.json("/api/test/", function(data) {
+    d3.json("/api/identitylist/", function(data) {
 
-        var names = data;
+        var names = data.map(a => a.Identities);
 
         console.log(names);
 
@@ -18,51 +18,57 @@ function init() {
         });
         
     })
-    // .catch(function(error) {
-    //     // Do some error handling.
-    //     return error;
-    // });
 };
 
 function optionChanged(value) {
  // call the API with the name selected, so call ..../Katy Perry from the database
-    wordCloud(value);
-    // Arc(value);
-    // dashBoard(value)
+    dashBoard(value);
         
 };
 
-function wordCloud(value) {
+function wordCloud() {
 
-    // var user_input = d3.select("#selDataset").property("value")
+    d3.json(`/api/wordcloud/?identity=${user_input}`).then((data) => {
 
-    d3.json(`"/api/wordcloud/?identity=" + ${value}`).then((data) => {
+         console.log(data);          
+
+
         
-
         //var sel_value = parseString(d3.select("#selDataset").property("value"));
-
 
     });
 };
 
-// function Arc() {
+function dashBoard(value) {
 
-//     d3.json(import API endpoint).then((data) => {
+    // var user_input = d3.select("#selDataset").val();
+    // console.log(user_input);
 
-//         //var sel_value = parseString(d3.select("#selDataset").property("value"));
-
-//     })
-// }
-
-function dashBoard() {
-
-    d3.json(`"/api/dynamictest/" + ${value}`).then((data) => {
+    d3.json(`/api/dashboard/?name=${value}`).then((data) => {
 
         var data = data
 
         console.log(data);
 
-    
+        Object.entries(data).forEach(([key, value]) => {
+            if (key.includes('Total')) {
+                d3.select("#user-totals").append("h5").text(`${key}: ${value}`);
+            }
+        });
+        
+        Object.entries(data).forEach(([key, value]) => {
+            if (key.includes('Month')) {
+                d3.select("#month-totals").append("h5").text(`${key}: ${value}`);
+            }
+        });
+
+        Object.entries(data).forEach(([key, value]) => {
+            if (key.includes('Day')) {
+                d3.select("#day-totals").append("h5").text(`${key}: ${value}`);
+            }
+        });
+
+
 
     })
 }
