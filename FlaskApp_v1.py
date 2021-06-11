@@ -297,28 +297,28 @@ def scatterResults():
 # A welcome message to test our server
 @app.route('/')
 def index():
-    testlist = []
-    testresults = mycol.find()
-    for entry in testresults:
-        print(entry)
     return render_template("index.html")
 
 
-myclient = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
-mydb = myclient["testDB"]
-mycol = mydb["test"]
-testresults = mycol.find()
-testlist = []
-for x in testresults:
-    testlist.append(x)
-    print(x)
+@app.route('/ARC_Diagram/')
+def arcdiagram():
+    return render_template("arc_index.html")
 
-htmlstring = """
-    <h1>Welcome to our server !!</h1>
-    <h4>Created by Twitterazi: Dave</h4><br>
-    <img src="https://www.creativefreedom.co.uk/wp-content/uploads/2017/06/Twitter-featured.png" alt="TwitterIcon"><br>
-    """
-returnstring = htmlstring + str(testlist)
+# myclient = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
+# mydb = myclient["testDB"]
+# mycol = mydb["test"]
+# testresults = mycol.find()
+# testlist = []
+# for x in testresults:
+#     testlist.append(x)
+#     print(x)
+
+# htmlstring = """
+#     <h1>Welcome to our server !!</h1>
+#     <h4>Created by Twitterazi: Dave</h4><br>
+#     <img src="https://www.creativefreedom.co.uk/wp-content/uploads/2017/06/Twitter-featured.png" alt="TwitterIcon"><br>
+#     """
+# returnstring = htmlstring + str(testlist)
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
