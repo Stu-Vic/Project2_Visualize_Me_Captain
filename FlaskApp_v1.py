@@ -1,6 +1,6 @@
 # app.py
 # v2 - 10:34pm
-from flask import Flask, request, jsonify, Response, render_template
+from flask import Flask, json, request, jsonify, Response, render_template
 from pprint import pprint
 import pymongo
 from bson.json_util import dumps, loads
@@ -300,9 +300,22 @@ def index():
     return render_template("index.html")
 
 
-@app.route('/ARC_Diagram/')
+@app.route('/api/ARC_Diagram/')
 def arcdiagram():
-    return render_template("arc_index.html")
+    client = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
+    mongo_db = client["Tweets_DB"]
+    mongo_collection = mongo_db["Arc_Diagram"]
+
+    ARC_output =  mongo_collection.find_one( {} )
+
+    for entry in ARC_output:
+        print(entry)
+
+    arc_json = dumps(ARC_output, indent=2)
+
+    return arc_json
+
+
 
 # myclient = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
 # mydb = myclient["testDB"]
