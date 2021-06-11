@@ -20,35 +20,26 @@ function init() {
     })
 };
 
-function optionChanged(value) {
+function optionChanged(incomingData) {
+    console.log(incomingData);
  // call the API with the name selected, so call ..../Katy Perry from the database
-    dashBoard(value);
-        
+    dashBoard(incomingData);
+    wordCloud(incomingData);
 };
 
-function wordCloud() {
+function dashBoard(name) {
 
-    d3.json(`/api/wordcloud/?identity=${user_input}`).then((data) => {
+    console.log(name);
 
-         console.log(data);          
-
-
-        
-        //var sel_value = parseString(d3.select("#selDataset").property("value"));
-
-    });
-};
-
-function dashBoard(value) {
-
-    // var user_input = d3.select("#selDataset").val();
-    // console.log(user_input);
-
-    d3.json(`/api/dashboard/?name=${value}`).then((data) => {
+    d3.json(`/api/dashboard/?name=${name}`).then((data) => {
 
         var data = data
 
         console.log(data);
+
+        d3.select("#user-totals").html("");
+        d3.select("#month-totals").html("");
+        d3.select("#day-totals").html("");
 
         Object.entries(data).forEach(([key, value]) => {
             if (key.includes('Total')) {

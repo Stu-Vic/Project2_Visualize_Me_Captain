@@ -271,7 +271,6 @@ def index():
         print(entry)
     return render_template("index.html")
 
-
 myclient = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
 mydb = myclient["testDB"]
 mycol = mydb["test"]
