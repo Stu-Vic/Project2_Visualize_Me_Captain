@@ -1,44 +1,93 @@
-// Dataset we will be using to set the height of our rectangles
-// var booksReadThisYear = [17, 23, 20, 34];
 
-// // Append an SVG wrapper to the page and set a variable equal to a reference to it
-// // YOUR CODE HERE
 
-// // Append the SVG wrapper to the page, set its height and width, and create a variable which references it
-// var svg = d3.select("#svg-area").append("svg");
-// svg.attr("width","600px").attr("height","400px");
+var query_url = "http://127.0.0.1:5000/api/dashboard/scatter/?name=%22NASA%22"
 
-// // Append a rectangle and set its height in relation to the booksReadThisYear value
+var base_api = 'https://twitterusers.herokuapp.com/api/dashboard/?name='
+var identity = '"Jimmy Fallon"'
+// var query_url = base_api + identity
+console.log(query_url)
 
-// var rectangle = svg.selectAll("rect");
+var margin = {top: 10, right: 30, bottom: 30, left: 60},
+    width = 850 - margin.left - margin.right,
+    height = 350 - margin.top - margin.bottom;
+    // append the svg object to the body of the page
+var svg = d3.select("#svg-area")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")")
 
-// rectangle.data(booksReadThisYear)
-//     .enter()
-//     .append("rect")
-//     .classed("bar", true)
-//     .attr("width", 100)
-//     .attr("height", function(d) {return 10 *d;})
-//     .attr("stroke", "black")
-//     .attr("fill", "red")
-//     .attr("x", function(d,i) {return i*125})
-//     .attr("y", function(d,i) {return d * 2})
+d3.json(query_url).then( function(data) {
+    console.log("start graph")
+    console.log(data)
 
-//     console.log("hit")
-// // Vertical Bar Chart
-// YOUR CODE HERE
+  // Add X axis
+    var x = d3.scaleLinear()
+    // .domain([0, 100000])
+    .domain(d3.extent(data, d => d.Likes))
+    .range([ 0, width ]);
+    svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
 
-// BONUS
-// Horizontal Bar Chart
-// YOUR CODE HERE
+    // Add Y axis
+    var y = d3.scaleLinear()  
+    // .domain([0, 100000])
+    .domain(d3.extent(data, d => d.Retweets))
+    .range([ height, 0]);
+    svg.append("g")
+    .call(d3.axisLeft(y));
 
-// BONUS 2
-// Alter your Vertical bar chart code to go from bottom  up.
+    // text label for the x axis
+    svg.append("text")             
+        .attr("transform", "translate(" + (width/2) + " ," + (height + margin.top + 20) + ")")
+        .style("text-anchor", "middle")
+        .text("Likes");
 
-function printout(inputdata) {
-    inputdata.forEach(element => {
-        console.log(element)
-    });
-}
+    // text label for the y axis
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left)
+        .attr("x",0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Re-Tweets");   
 
-var query_url = "https://twitterusers.herokuapp.com/api/wordcloud/?identity=%22BBC%22"
-d3.json(query_url).then(printout)
+    // chart title
+    svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2) + 20)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .style("text-decoration", "underline")  
+        .text(`${identity} Likes vs Retweets`);
+
+    // Add dots
+    svg.append('g')
+    .selectAll("dot")
+    .data(data)
+    .enter()
+    .append("circle")
+        // .attr("cx", function (d) { return x(d.Retweets); } )
+        .attr("cx", 0)
+        .attr("cy", function (d) { return y(d.Retweets); } )
+        .attr("r", 2.5)
+        .style("fill", "#69b3a2")
+
+    // // new X axis
+    // x.domain([0, 100000])
+    // svg.select(".myXaxis")
+    // .transition()
+    // .duration(500)
+    // .attr("opacity", "1")
+    // .call(d3.axisBottom(x));
+
+    svg.selectAll("circle")
+    .transition()
+    .delay(function(d,i){return(i*.25)})
+    .duration(1000)
+    .attr("cx", function (d) { return x(d.Likes); } )
+    .attr("cy", function (d) { return y(d.Retweets); } )
+});

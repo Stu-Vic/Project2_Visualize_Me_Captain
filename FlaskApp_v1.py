@@ -9,6 +9,8 @@ import pandas as pd
 
 app = Flask(__name__)
 
+global_df = pd.DataFrame()
+
 def word_count(input):
     counts = dict()
     
@@ -188,7 +190,7 @@ def dashboard():
 
     # Group DF by Month, get stats 
     identity_groupby_month_df = identity_df.groupby(pd.Grouper(key='Date', freq='M'))
-    AvgTweetsPerMonth = round(identity_groupby_month_df['Likes'].count().mean())
+    AvgTweetsPerMonth = round(identity_groupby_month_df['Tweet Id'].count().mean())
     AvgLikesPerMonth = round(identity_groupby_month_df['Likes'].sum().mean())
     AvgReTweetsPerMonth = round(identity_groupby_month_df['Retweets'].sum().mean())
     AvgAtMentionsPerMonth = round(identity_groupby_month_df['Total @'].sum().mean())
@@ -196,7 +198,7 @@ def dashboard():
 
     # Group DF by Day, get stats 
     identity_groupby_day_df = identity_df.groupby(pd.Grouper(key='Date', freq='D'))
-    AvgTweetsPerDay = round(identity_groupby_day_df['Likes'].count().mean())
+    AvgTweetsPerDay = round(identity_groupby_day_df['Tweet Id'].count().mean())
     AvgLikesPerDay = round(identity_groupby_day_df['Likes'].sum().mean())
     AvgReTweetsPerDay = round(identity_groupby_day_df['Retweets'].sum().mean())
     AvgAtMentionsPerDay = round(identity_groupby_day_df['Total @'].sum().mean())
@@ -209,8 +211,12 @@ def dashboard():
     TotalAtMentions = identity_df['Total @'].sum()
     TotalHashtags = identity_df['Total #'].sum()
 
-    # Combine into Dictionaries 
-    Tweet_Data_All = {
+    # Create Scatterplot DF & JSON it
+    scatter_df = identity_df[['Likes','Retweets']]
+    # scatter_json = scatter_df.to_json(orient="records")
+
+    # Combine Stats into a Dictionary
+    Tweet_Data_Stats = {
         "TotalTweets": int(TotalTweets),
         "TotalLikes": int(TotalLikes),
         "TotalReTweets": int(TotalReTweets),
@@ -227,10 +233,36 @@ def dashboard():
         "AvgAtMentionsPerMonth": AvgAtMentionsPerMonth,
         "AvgHashtagsPerMonth": AvgHashtagsPerMonth
     }
+
+    # Copy Dataframe into Global for other function
+    global_df = identity_df.copy()
+
+    # Combine Two Dictionaries
+    # Tweet_Data_All = [Tweet_Data_Stats,scatter_json]
     
     # Return 
-    tweet_json_data = dumps(Tweet_Data_All, indent=2)
+    tweet_json_data = dumps(Tweet_Data_Stats, indent=2)
     return tweet_json_data
+
+
+@app.route("/api/dashboard/scatter/", methods=['GET'])
+def scatterResults():
+    client = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
+    mongo_db = client["Tweets_DB"]
+    mongo_collection = mongo_db["Combined_Tweets"]
+    
+    # set QueryIdentity from API GET, clean out commas
+    QueryIdentity = request.args.get("name",None)
+    print(f"got name {QueryIdentity}")
+    if QueryIdentity.startswith('"') and QueryIdentity.endswith('"'):
+        QueryIdentity = QueryIdentity[1:-1]
+        print(f"revised name {QueryIdentity}")
+    
+    scatter_df = pd.DataFrame(list(mongo_collection.find({"Identity": QueryIdentity} ,{ "_id": 0, "Likes": 1, "Retweets" : 1} )))
+    scatter_json = scatter_df.to_json(orient="records")
+    # scatter_json = dumps(scatter_df)
+
+    return scatter_json
 
 
 # @app.route("/api/dashboard-old/", methods=['GET'])
