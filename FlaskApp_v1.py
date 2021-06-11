@@ -128,7 +128,7 @@ def average():
     if QueryName.startswith('""') and QueryName.endswith('""'):
         QueryName = QueryName[2:-2]
         print(f"revised name {QueryName}")
-    # set
+    # set updatabase connection
     client = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
     mongo_db = client["Tweets_DB"]
     mongo_collection = mongo_db["Combined_Tweets"]
@@ -165,6 +165,96 @@ def averageDaily():
     return json_data
     # query db
 
+@app.route("/api/dashboard/", methods=['GET'])
+def dashboard():
+    # set QueryIdentity from API GET, clean out commas
+    QueryIdentity = request.args.get("name",None)
+    print(f"got name {QueryIdentity}")
+    if QueryIdentity.startswith('"') and QueryIdentity.endswith('"'):
+        QueryIdentity = QueryIdentity[1:-1]
+        print(f"revised name {QueryIdentity}")
+    
+    # Query Mongo, turn into Dataframe 
+    identity_df = pd.DataFrame(list(mongo_collection.find({"Identity": QueryIdentity})))
+
+    # Read In Date / Time 
+    identity_df['Time'] = pd.to_datetime(identity_df["Time"],format='%H:%M:%S')
+    identity_df["Date"] = pd.to_datetime(identity_df["Date"],format="%Y-%m-%d")
+
+    # Group DF by Month, get stats 
+    identity_groupby_month_df = identity_df.groupby(pd.Grouper(key='Date', freq='M'))
+    AvgTweetsPerMonth = round(identity_groupby_month_df['Likes'].count().mean())
+    AvgLikesPerMonth = round(identity_groupby_month_df['Likes'].sum().mean())
+    AvgReTweetsPerMonth = round(identity_groupby_month_df['Retweets'].sum().mean())
+    AvgAtMentionsPerMonth = round(identity_groupby_month_df['Total @'].sum().mean())
+    AvgHashtagsPerMonth = round(identity_groupby_month_df['Total #'].sum().mean())
+
+    # Group DF by Day, get stats 
+    identity_groupby_day_df = identity_df.groupby(pd.Grouper(key='Date', freq='D'))
+    AvgTweetsPerDay = round(identity_groupby_day_df['Likes'].count().mean())
+    AvgLikesPerDay = round(identity_groupby_day_df['Likes'].sum().mean())
+    AvgReTweetsPerDay = round(identity_groupby_day_df['Retweets'].sum().mean())
+    AvgAtMentionsPerDay = round(identity_groupby_day_df['Total @'].sum().mean())
+    AvgHashtagsPerDay = round(identity_groupby_day_df['Total #'].sum().mean())
+
+    # Get Totals Stats 
+    TotalTweets = identity_df['Tweet Id'].count()
+    TotalLikes = identity_df['Likes'].sum()
+    TotalReTweets = identity_df['Retweets'].sum()
+    TotalAtMentions = identity_df['Total @'].sum()
+    TotalHashtags = identity_df['Total #'].sum()
+
+    # Combine into Dictionaries 
+    Tweet_Data_All = {
+        "TotalTweets": TotalTweets,
+        "TotalLikes": TotalLikes,
+        "TotalReTweets": TotalReTweets,
+        "TotalAtMentions": TotalAtMentions,
+        "TotalHashtags": TotalHashtags,
+        "AvgTweetsPerDay": AvgTweetsPerDay,
+        "AvgLikesPerDay": AvgLikesPerDay,
+        "AvgReTweetsPerDay": AvgReTweetsPerDay,
+        "AvgAtMentionsPerDay": AvgAtMentionsPerDay,
+        "AvgHashtagsPerDay": AvgHashtagsPerDay,
+        "AvgTweetsPerMonth": AvgTweetsPerMonth,
+        "AvgLikesPerMonth": AvgLikesPerMonth,
+        "AvgReTweetsPerMonth": AvgReTweetsPerMonth,
+        "AvgAtMentionsPerMonth": AvgAtMentionsPerMonth,
+        "AvgHashtagsPerMonth": AvgHashtagsPerMonth
+    }
+    
+    # Return 
+    return jsonify(Tweet_Data_All)
+
+
+# @app.route("/api/dashboard-old/", methods=['GET'])
+# def dashboardOld():
+#     # set
+#     QueryName = request.args.get("name",None)
+#     print(f"got name {QueryName}")
+#     if QueryName.startswith('"') and QueryName.endswith('"'):
+#         QueryName = QueryName[1:-1]
+#         print(f"revised name {QueryName}")
+#     # set
+#     client = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
+#     mongo_db = client["Tweets_DB"]
+#     mongo_collection = mongo_db["Combined_Tweets"]
+#     #testoutput =  mongo_collection.find( { "Identity": QueryName }).sort([("Likes",-1)]).limit(1)
+#     average = mongo_collection.aggregate([{ '$match': { 'Identity': QueryName } },{ '$group': { '_id': 1, 'average': { '$avg': "$Likes" } } }])
+#     totalLikes = mongo_collection.aggregate([{ '$match': { 'Identity': QueryName } },{ '$group': { '_id': 1, 'total': { '$sum': "$Likes" } } }])
+#     totalRetweets = mongo_collection.aggregate([{ '$match': { 'Identity': QueryName } },{ '$group': { '_id': 1, 'total': { '$sum': "$Retweets" } } }])
+#     # turn into JSONJSON
+#     responseAverage = list(average)
+#     responseTotalLikes = list(totalLikes)
+#     responsetotalRetweets=list(totalRetweets)
+#     print(f"average {responseAverage} ")
+#     print(f"totalLikes {responseTotalLikes}")
+#     print(f"totalRetweets{responsetotalRetweets}")
+#     json_average = dumps(responseAverage, indent=2)
+#     json_totalLikes = dumps(responseTotalLikes, indent=2)
+#     json_totalRetweets = dumps(responsetotalRetweets, indent=2)
+#     response = jsonify(json_average,json_totalLikes,json_totalRetweets)
+#     return response
 
 # A welcome message to test our server
 @app.route('/')
