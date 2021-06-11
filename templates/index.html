@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Twitterazzi</title>
@@ -38,24 +39,46 @@
     </div> -->
     <div class = 'row bg-light'>
       <div class = 'col-xs-1 col-lg-1'>
-        <button onclick="dashBoard()" id="button">Show Dash-board</button>
-        <br>
         <button onclick="Arc()" id="button">Show Arc Diagram</button>
-        <br>
-        <button onclick="wordCloud()" id="button">Show Word Cloud</button>
       </div>
       <div class = 'col-xs-11 col-lg-11'>
-        <h4>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum iaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h4>
-      </div>
-      <div class = 'col-xs-1 col-lg-1'>
-      <div class="row">
-        <div class="col-xs-12  col-md-9">
-          <div id="scatter">
-            <!-- We append our chart here. -->
+        <div class = 'row' id = 'dash'>
+          <div class = 'col-xs-2 col-lg-2'>
+            <div class="card">
+              <div class="card-header">
+                <h3 class="title">User Totals</h3>
+              </div>
+              <div id="user-totals" class="card-body"></div>
+            </div>
+          </div>
+          <div class = 'col-xs-2 col-lg-2'>
+            <div class="card">
+              <div class="card-header">
+                <h3 class="title">Monthly Totals</h3>
+              </div>
+              <div id="month-totals" class="card-body"></div>
+            </div>
+          </div>
+          <div class = 'col-xs-2 col-lg-2'>
+            <div class="card">
+              <div class="card-header">
+                <h3 class="title">Daily Totals</h3>
+              </div>
+              <div id="day-totals" class="card-body"></div>
+            </div>
+          </div>
+          <div class = 'col-xs-2 col-lg-2'>
+            <div id="cloud">
+
+            </div>
+          </div>
+        <div class = 'col-xs-11 col-lg-11'>
+          <div class = 'row' id = 'scatter'>
+            klsdhfousghfo
           </div>
         </div>
       </div>
-
+      <div class = 'col-xs-1 col-lg-1'>
       </div>
     </div>
   </div>
