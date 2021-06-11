@@ -315,7 +315,9 @@ def arcdiagram():
 
     return arc_json
 
-
+@app.route('/ARC_Diagram/')
+def arcindex():
+    return render_template("arc_index.html")
 
 # myclient = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
 # mydb = myclient["testDB"]
