@@ -24,14 +24,13 @@ function optionChanged(incomingData) {
     console.log(incomingData);
  // call the API with the name selected, so call ..../Katy Perry from the database
     dashBoard(incomingData);
-    wordCloud(incomingData);
 };
 
 function dashBoard(name) {
 
     console.log(name);
 
-    d3.json(`/api/dashboard/?name=${name}`).then((data) => {
+    d3.json(`/api/dashboard/?name=${name}`, function (data) {
 
         var data = data
 
@@ -58,8 +57,11 @@ function dashBoard(name) {
                 d3.select("#day-totals").append("h5").text(`${key}: ${value}`);
             }
         });
+    })
 
+    d3.json(`/api/dashboard/scatter/?name=${name}`, function(data) {
 
+        
 
     })
 }
