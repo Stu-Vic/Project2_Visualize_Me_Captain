@@ -319,6 +319,10 @@ def arcdiagram():
 def arcindex():
     return render_template("arc_index.html")
 
+@app.route('/wordcloudpage/')
+def wordcloudpage():
+    return render_template("wordcloud.html")
+
 # myclient = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
 # mydb = myclient["testDB"]
 # mycol = mydb["test"]
