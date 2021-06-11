@@ -211,11 +211,11 @@ def dashboard():
 
     # Combine into Dictionaries 
     Tweet_Data_All = {
-        "TotalTweets": TotalTweets,
-        "TotalLikes": TotalLikes,
-        "TotalReTweets": TotalReTweets,
-        "TotalAtMentions": TotalAtMentions,
-        "TotalHashtags": TotalHashtags,
+        "TotalTweets": int(TotalTweets),
+        "TotalLikes": int(TotalLikes),
+        "TotalReTweets": int(TotalReTweets),
+        "TotalAtMentions": int(TotalAtMentions),
+        "TotalHashtags": int(TotalHashtags),
         "AvgTweetsPerDay": AvgTweetsPerDay,
         "AvgLikesPerDay": AvgLikesPerDay,
         "AvgReTweetsPerDay": AvgReTweetsPerDay,
