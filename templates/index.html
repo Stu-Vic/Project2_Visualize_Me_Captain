@@ -39,11 +39,15 @@
     </div> -->
     <div class = 'row bg-light'>
       <div class = 'col-xs-1 col-lg-1'>
-        <button onclick="Arc()" id="button">Show Arc Diagram</button>
+        <!-- <button class = "nav-link" href = "templates/arc_index.html" id="button">Show Arc Diagram</button> -->
+        <a href="templates/arc_index.html" class="btn btn-primary">Show Arc Diagram</a>
+        <br>
+        <!-- <button class = "nav-link" href = "wordcloud_html.html" id="button">Show Word Cloud</button> -->
+        <a href="wordcloud_html.html" class="btn btn-primary">Show Word Cloud</a>
       </div>
       <div class = 'col-xs-11 col-lg-11'>
-        <div class = 'row' id = 'dash'>
-          <div class = 'col-xs-2 col-lg-2'>
+        <div class = 'row'>
+          <div class = 'col-xs-3 col-lg-3'>
             <div class="card">
               <div class="card-header">
                 <h3 class="title">User Totals</h3>
@@ -51,7 +55,7 @@
               <div id="user-totals" class="card-body"></div>
             </div>
           </div>
-          <div class = 'col-xs-2 col-lg-2'>
+          <div class = 'col-xs-3 col-lg-3'>
             <div class="card">
               <div class="card-header">
                 <h3 class="title">Monthly Totals</h3>
@@ -59,7 +63,7 @@
               <div id="month-totals" class="card-body"></div>
             </div>
           </div>
-          <div class = 'col-xs-2 col-lg-2'>
+          <div class = 'col-xs-3 col-lg-3'>
             <div class="card">
               <div class="card-header">
                 <h3 class="title">Daily Totals</h3>
@@ -67,15 +71,17 @@
               <div id="day-totals" class="card-body"></div>
             </div>
           </div>
-          <div class = 'col-xs-2 col-lg-2'>
-            <div id="cloud">
-
-            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+          <div class="col-md-11">
+            <div id="scatter"></div>
           </div>
-        <div class = 'col-xs-11 col-lg-11'>
-          <div class = 'row' id = 'scatter'>
-            klsdhfousghfo
-          </div>
+        </div>
+        <div class="row">
+          <br>
+          <br>
         </div>
       </div>
       <div class = 'col-xs-1 col-lg-1'>
