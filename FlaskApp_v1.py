@@ -167,6 +167,11 @@ def averageDaily():
 
 @app.route("/api/dashboard/", methods=['GET'])
 def dashboard():
+    # set up pymongo connection
+    client = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
+    mongo_db = client["Tweets_DB"]
+    mongo_collection = mongo_db["Combined_Tweets"]
+    
     # set QueryIdentity from API GET, clean out commas
     QueryIdentity = request.args.get("name",None)
     print(f"got name {QueryIdentity}")
