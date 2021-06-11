@@ -171,7 +171,7 @@ def dashboard():
     client = pymongo.MongoClient("mongodb+srv://AtlasTwitter:1FineTwitterApp!@twittercluster.ycq9k.mongodb.net/")
     mongo_db = client["Tweets_DB"]
     mongo_collection = mongo_db["Combined_Tweets"]
-    
+
     # set QueryIdentity from API GET, clean out commas
     QueryIdentity = request.args.get("name",None)
     print(f"got name {QueryIdentity}")
@@ -229,7 +229,8 @@ def dashboard():
     }
     
     # Return 
-    return jsonify(Tweet_Data_All)
+    tweet_json_data = dumps(Tweet_Data_All, indent=2)
+    return tweet_json_data
 
 
 # @app.route("/api/dashboard-old/", methods=['GET'])
