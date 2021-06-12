@@ -1,57 +1,33 @@
 # Project2_Visualize_Me_Captain
-Twitterazzi
+# Twitterazzi
 
 https://docs.google.com/document/d/1OyaQzLnUlCP1M5yW1of3k6namy92HghdryX1IblntQ8/edit
 
-Proposal & Design 7/6/2021 8:05pm
+# Proposal & Design 
 
-We found a Kaggle dataset, of the top 50 twitter users, and the metadata of their tweets, such as date/time, likes, retweets, etc. We are going to analyse this data and display two key visualisations: an arc diagram illustrating which of the top 50 users have relationships with each other, and an interactive dashboard allowing a user to select a twitter user and display interactive tweet statistics for that user. 
+We found a Kaggle dataset, of the top 50 twitter users, and the metadata of their tweets, such as date/time, likes, retweets, etc. We are going to analyse this data and display three key visualisations: an arc diagram illustrating which of the top 50 users have relationships with each other, and an interactive dashboard allowing a user to select a twitter user and display interactive tweet statistics for that user, and a wordcloud outlining the top hashtags for each twitter users. . 
 https://www.trackmyhashtag.com/blog/free-twitter-datasets/
 
-The data is broken up into separate users and separate files. We will need to combine this data into a single database. The images and videos CSV files are mostly useless to us. The PDFs may form as an inspiration for the analysis but dont need to be included in the dataset. 
+The data is broken up into separate users and separate files. We needed to combine all the files (all named "tweets.csv") into a single database. The images and videos CSV files were joined and merged as part of statistical information. The PDFs were removed from the dataset. . 
 
 We need to rename the “tweets” csv file, allocate the twitter user against against that data, and manually categorise each twitter user as we go, into the following:
 Gender of User (Male / Female / Organisation) 
 Category or Vocation of User (Music, Sport, Entertainment, Politics, Technology, News / Media, Other)
 
-The data will be uploaded into a Mongo Atlas DB, in Sydney. 
+# Data 
+The data was uploaded into a Mongo Atlas DB, in AWS Sydney. There are two containers: Tweets_Combined, and ARC_Diagram.
 
+# Flask and API
+Flask is hosted on Heroku, with the following API routes 
+/ 
+/wordcloudpage/
+/ARC_Diagram/
+/api/dashboard/  		 (dynamic)
+/api/dashboard/scatter  	 (dynamic)
+/api/identitylist/  		 (static)
+/api/wordcloud/ 		 (dynamic) 
 
-
-DB Structure
-Two tables 
-Users:
-User_Twitter_User_ID (PK) (e.g. “fcbarcelona” or “harry_styles” or “nytimes”)
-User_FullName (“Harry Styles” or “Barack Obama”)
-User_Gender
-User_Vocation
-User_Pre_Computed_WordCloud_Words (100 words)
-User_NumTwitterFollowers (get manually) 
-User_TwitterRank (get manually)
-User_NumImages
-User_NumVideos
-Tweets 
-Twitter_User_ID (FK)
-Tweet_ID (number)
-Tweet_Time
-Tweet_Date
-Tweet_Content (string)
-Tweet_Type
-Tweet_Client
-Tweet_ReTweets (num)
-Tweet_Likes (num)
-Tweet_UserName
-@ mentions
-# mentions
-Third? For Arc-Diagram - Stu 
-
-
-Repo Structure 
-Resources (for datasets and csvs)
-Scripts & notebooks folder (for our analysis 
-Assets folder (for website), including images, and other material used for website 
-
-ETL
+# ETL
 Separate Date and Time into two columns
 Apply Gender and Vocation categories to Users 
 Apply each individual “tweets” CSV to a User_Twitter_User_ID
@@ -64,12 +40,7 @@ Both?
 
 
 
-
-
-
-
-
-Visualisations
+Visualisations ideas
 Arc Diagram of tweets between these users / relationships and connections / which of the top 50 are messaging or messaging each other 
 Interactive Dashboard
 Dropdown menu, allowing you to select a top 50 twitter user, and a series of statistics and graphs display with animated transitions 
@@ -77,15 +48,6 @@ As example graphs, most active time of day, number of hashtags / percentage of h
 WordCloud? Would look cool. Might need to be pre-analysed into a separate table or something, ready for display. 
 Maybe (?) being able to select by gender or user category (vocation) 
 Third visualisation to come later if we need to 
-
-Tasks
-
-
-Set up GitHub Repo and distribute 
-Investigate Heroku and Google Cloud hosting options (Or paid option? Lightsail? $5 a month) 
-ETL 
-Data storage and retrieval homework - handy
-
 
 
 Ideas 
@@ -104,14 +66,4 @@ Numbers of hashtags, mentions (could do a word cloud similar to this https://git
 Numbers of likes, retweets (give indication of what info followers are spreading; indicative of agreement with sentiment also)
 Which of the top 50 users (+ others?) are communicating with each other (arc diagram?)
 
-Australian cities sentiment 
 
-
-
-New Javascript libraries 
-AOS - animate on scroll; purely visual presentation https://michalsnik.github.io/aos/ 
-Bideo https://rishabhp.github.io/bideo.js/ have a video as your background 
-React https://reactjs.org/ good for real time updates to a page, UI, react is a very different language, quite hard to use
-React-vis library for visualising 
-D3 hive charts/plots
-http://sigmajs.org/ sigma 
